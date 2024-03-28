@@ -1,0 +1,14 @@
+project_name: "All_shells_cls"
+path: ../Dataset/Classification
+
+# Model Configurations
+epochs: 10
+batch: 16
+image_size: 500
+save: True
+save_period: 10
+workers: 8
+optimiser: "auto"
+val: True
+plots: True
+resume: False

@@ -17,5 +17,5 @@ def load_config(file_path):
     """
     with open(file_path, 'r') as conf:
         configs = yaml.load(conf, Loader=yaml.FullLoader)
-        print(f"--- Loaded {configs['Dataset']} configurations.")
+        print(f"--- Loaded {configs['project_name']} configurations.")
         return configs
