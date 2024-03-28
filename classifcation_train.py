@@ -3,7 +3,7 @@ This module is used to train the Yolo8 Classifier Model for ShellVis.
 Version: 1.0.0
 Author: Deja S.
 Created: 26-03-2024
-Last Edit: 26-03-2024
+Last Edit: 27-03-2024
 """
 
 import os
@@ -27,6 +27,7 @@ if __name__ == "__main__":
     opts = vars(ap.parse_args())
 
     # TODO: Add logger
+    # TODO: Add Tensorboard
 
     # Required Variables
     output_dir = f"./run"
@@ -60,7 +61,7 @@ if __name__ == "__main__":
     device = 0 if torch.cuda.is_available() else 'cpu'
 
     # Model Configuration
-    model = YOLO(w_path)
+    model = YOLO(w_path, task='classify')
 
     if mode == "new":
         print("--- Starting a new training session ...")
@@ -71,3 +72,9 @@ if __name__ == "__main__":
     else:
         results = model.train(resume=True)
 
+    # Model validation
+    metrics = model.val()
+    print(metrics.top5)
+
+    # Export model
+    # model.export()
