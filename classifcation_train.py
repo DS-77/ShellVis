@@ -27,7 +27,6 @@ if __name__ == "__main__":
     opts = vars(ap.parse_args())
 
     # TODO: Add logger
-    # TODO: Add Tensorboard
 
     # Required Variables
     output_dir = f"./run"
@@ -74,7 +73,9 @@ if __name__ == "__main__":
 
     # Model validation
     metrics = model.val()
-    print(metrics.top5)
+
+    print("--- Metrics: ")
+    print(metrics)
 
     # Export model
     # model.export()

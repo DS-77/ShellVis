@@ -2,8 +2,8 @@ project_name: "All_shells_cls"
 path: ../Dataset/Classification_split
 
 # Model Configurations
-epochs: 10
-batch: 4
+epochs: 100
+batch: 8
 image_size: 512
 save: True
 save_period: 10
