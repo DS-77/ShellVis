@@ -3,7 +3,7 @@ This module house useful functions that make working with the model easier.
 Version: 1.0.0
 Author: Deja S.
 Created: 26-03-2024
-Last Edit: 26-03-2024w
+Last Edit: 26-03-2024
 """
 
 import yaml
