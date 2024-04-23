@@ -48,10 +48,11 @@ if __name__ == "__main__":
     img = None
 
     if gen_num > 0:
-        # Inpaints with
+        # Inpaints with manual generation seed
         generator = torch.Generator("cuda").manual_seed(gen_num)
         img = pipeline(prompt=prompt, image=input_img, mask_image=input_mask, generator=generator).images[0]
     else:
+        # Inpaint without generation seed
         img = pipeline(prompt=prompt, image=input_img, mask_image=input_mask).images[0]
 
     grid_img = make_image_grid([input_img, img], rows=1, cols=2)
