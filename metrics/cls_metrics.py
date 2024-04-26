@@ -18,6 +18,7 @@ import os
 import tqdm
 import argparse
 import pandas as pd
+from datetime import datetime
 from sklearn.metrics import accuracy_score, precision_score, f1_score, recall_score, confusion_matrix
 
 if __name__ == "__main__":
@@ -36,12 +37,16 @@ if __name__ == "__main__":
         print(f"ERROR: file path '{file_path}' is not found or does not exist!")
         exit()
 
+    # Create output directory if it does not exist
+    if not os.path.exists("./runs/metrics/"):
+        os.makedirs("./runs/metrics/")
+
     # Read file
     data = pd.read_csv(file_path)
 
     # Get the true and predicted labels
-    true_labels = data.loc[:, "true"]
-    predicted_labels = data.loc[:, "predicted"]
+    true_labels = data.loc[:, "true_label"]
+    predicted_labels = data.loc[:, "predicted_label"]
 
     # Calculate the metrics
     acc_score = accuracy_score(true_labels, predicted_labels)
@@ -59,7 +64,7 @@ if __name__ == "__main__":
     print("=" * 80)
 
     # Writing results to a file
-    with open(name, w) as file:
+    with open(output_file_path, 'w') as file:
         file.write("Metrics:\n")
         file.write("=" * 80)
         file.write(f"\nAccuracy Score:\t{acc_score:.3f}\n")

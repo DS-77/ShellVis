@@ -5,7 +5,7 @@ import argparse
 import cv2 as cv
 import numpy as np
 from ultralytics import YOLO
-from datetime import datetime
+from datetime import datetime, date
 
 
 def add_class(img_path, class_name, conf):
@@ -43,15 +43,15 @@ def add_class(img_path, class_name, conf):
     return new_img
 
 
-def make_file(files, true_labels, pred_labels, outdir) -> None:
+def make_file(files, true_labels, pred_labels) -> None:
     """
     This function makes a txt file of the filename, true labels (gathered from the filename) and the predicted labels.
     :param files: List of filenames.
     :param true_labels: List of true labels.
     :param pred_labels: List of predicted labels.
-    :param outdir: The string path to the output directory.
     :return: None
     """
+    outdir = "./output_label_files"
     save_file_name = os.path.join(outdir, f"yolo8_classification_labels_{datetime.now()}.txt")
 
     with open(save_file_name, "w") as f:
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     w_path = opts['weight']
     is_batch = opts['batch']
     input_path = opts['input_path']
-    output_dir = "./runs/test/classifcation"
+    output_dir = f"./runs/classify/test_{date.today()}"
     results = None
 
     # Store the True and predicted labels
@@ -120,7 +120,7 @@ if __name__ == "__main__":
             i_img = os.path.join(input_path, i)
 
             # Get the results
-            results = model.predict(i_img, conf=0.5)
+            results = model.predict(i_img, conf=0.6)
             for r in range(len(results)):
                 index = results[r].probs.top1
                 conf = results[r].probs.top1conf
@@ -135,11 +135,11 @@ if __name__ == "__main__":
                 cv.imwrite(os.path.join(output_dir, file_name), result_image)
                 print(f"'{file_name}' can be found on path: {output_dir}")
 
-        make_file(input_img, true_labels, predicted_labels, output_dir)
+        make_file(input_img, true_labels, predicted_labels)
 
     else:
         # Prediction for a single image
-        results = model.predict(input_img, conf=0.5)
+        results = model.predict(input_img, conf=0.6)
 
         for r in range(len(results)):
             index = results[r].probs.top1

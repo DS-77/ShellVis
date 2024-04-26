@@ -67,7 +67,7 @@ if __name__ == "__main__":
         results = model.train(data=conf['path'], epochs=conf['epochs'], imgsz=conf['image_size'],
                               device=device, batch=conf['batch'], save=conf['save'], save_period=conf['save_period'],
                               workers=conf['workers'], optimizer=conf['optimiser'], val=conf['val'], plots=conf['plots'],
-                              resume=conf['resume'])
+                              resume=conf['resume'], cos_lr=conf['cos_lr'], dropout=conf['dropout'])
     else:
         results = model.train(resume=True)
 

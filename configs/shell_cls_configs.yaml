@@ -2,13 +2,15 @@ project_name: "All_shells_cls"
 path: ../Dataset/Classification_split
 
 # Model Configurations
-epochs: 100
 batch: 8
-image_size: 512
-save: True
-save_period: 10
-workers: 4
-optimiser: "auto"
 val: True
+workers: 4
+save: True
 plots: True
+epochs: 200
+cos_lr: True
+dropout: 0.3
 resume: False
+image_size: 512
+save_period: 10
+optimiser: "SGD"
