@@ -21,11 +21,9 @@ TODO LIST:
 
 - [x] Find a dataset
 - [x] Extract class names from the image names
-- [ ] Label Training Dataset using the YOLO 5 notation for classification
 - [ ] Augment the dataset to have missing portions and generate masks for them (generation model)
-- [ ] Define preprocessing steps
-- [ ] Train classification model
-- [ ] Train the generation model
+- [x] Define preprocessing steps
+- [x] Train classification model
 - [x] Find the best metrics for evaluating the model
 - [x] Find comparative models
 - [ ] Create figures
