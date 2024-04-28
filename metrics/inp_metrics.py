@@ -65,7 +65,7 @@ def calculate_psnr(gen_imgs: list, gt_imgs: list, gen_path: str, gt_path: str) -
         gt_img = cv.imread(os.path.join(gt_path, gt))
 
         # Calculate psnr
-        psnr_score = peak_signal_noise_ratio(img, gt)
+        psnr_score = peak_signal_noise_ratio(img, gt_img)
         temp_psnr.append(psnr_score)
 
     return temp_psnr
@@ -150,7 +150,7 @@ if __name__ == "__main__":
     mse_scores = calculate_mse(gen_imgs, gt_imgs, generated_path, ground_truth_path)
 
     ave_ssim_score = np.mean(ssim_scores)
-    ave_psnr_score = np.mean(psrn_scores)
+    ave_psnr_score = np.mean(psnr_scores)
     ave_mse_score = np.mean(mse_scores)
 
     print("=" * 80)

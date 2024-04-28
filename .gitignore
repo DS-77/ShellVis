@@ -2,8 +2,8 @@
 Dataset/
 runs/
 tools/
-stablediffusion/
 comparative_models/
 output_label_files/
 Report_Assets/
 vit_runs/
+eff_runs/

@@ -1,4 +1,4 @@
-ShellVis: Seashell Classification and Generation Model
+ShellVis: Seashell Classification and Restoration Model
 ---
 
 *Abstract:*
