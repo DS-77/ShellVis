@@ -68,10 +68,12 @@ def create_result_img(img_path, pred_img, class_name, conf):
     :return: A new image. (OpenCV Image)
     """
     img = cv.imread(img_path)
+    pred_img = cv.cvtColor(pred_img, cv.COLOR_BGR2RGB)
+    img, pred_img = label_imgs(img, pred_img)
     text = f"{class_name}: {conf:.2f}"
 
     # Concatenate the original and the predicted image
-    temp_img = cv2.hconcat(img, pred_img)
+    temp_img = np.concatenate((img, pred_img), axis=1)
 
     border_size = 100
     h, w = temp_img.shape[:2]
@@ -79,7 +81,7 @@ def create_result_img(img_path, pred_img, class_name, conf):
 
     # Add border to image
     new_img = np.zeros((new_h, w, 3), dtype=np.uint8)
-    new_img[:h, :] = temp_img
+    new_img[:h, :, :] = temp_img
 
     # Add text to image
     font = cv.FONT_HERSHEY_SIMPLEX
@@ -97,12 +99,33 @@ def create_result_img(img_path, pred_img, class_name, conf):
     return new_img
 
 
+def label_imgs(org_img, pred_img):
+    """
+    This function labels the original and generated image.
+    :param org_img: The original image.
+    :param pred_img: The generated image.
+    :return: The labelled version of the original and generated images.
+    """
+    org_text = "Original"
+    pred_text = "Generated"
+
+    # Add text to image
+    font = cv.FONT_HERSHEY_SIMPLEX
+    font_scale = 1
+    font_thickness = 2
+
+    cv.putText(org_img, org_text, (50, 50), font, font_scale, (255, 255, 255), font_thickness)
+    cv.putText(pred_img, pred_text, (50, 50), font, font_scale, (255, 255, 255), font_thickness)
+
+    return org_img, pred_img
+
+
 if __name__ == "__main__":
     # Argument Parser
     ap = argparse.ArgumentParser()
     ap.add_argument('-i', "--input_img", required=True, type=str, help="The path to the input image.")
     ap.add_argument('-m', "--input_mask", required=True, type=str, help="The path to the input mask.")
-    ap.add_argument('-o', "--output_dir", required=False, type=str, default="../shellvis_output")
+    ap.add_argument('-o', "--output_dir", required=False, type=str, default="./shellvis_output")
     opts = vars(ap.parse_args())
 
     # Argparse variables
@@ -119,6 +142,7 @@ if __name__ == "__main__":
     cls_conf = 0
     results_img = None
     inpainted_img = None
+    steps = 50
 
     # Select a device
     os.environ["CUDA_VISIBLE_DEVICES"] = "0"
@@ -151,7 +175,7 @@ if __name__ == "__main__":
 
     # Classify ================================================================
     results = cls_model.predict(input_img, conf=0.5)
-    for r in results:
+    for r in range(len(results)):
         index = results[r].probs.top1
         cls_conf = results[r].probs.top1conf
         prompt = results[r].names[index]
@@ -168,7 +192,7 @@ if __name__ == "__main__":
             c = torch.cat((c, cc), dim=1)
 
             shape = (c.shape[1]-1,)+c.shape[2:]
-            samples_ddim, _ = sampler.sample(S=opt.steps,
+            samples_ddim, _ = sampler.sample(S=steps,
                                              conditioning=c,
                                              batch_size=c.shape[0],
                                              shape=shape,
@@ -183,7 +207,7 @@ if __name__ == "__main__":
             inpainted_img = inpainted_img.cpu().numpy().transpose(0, 2, 3, 1)[0] * 255
 
     # Save Results ============================================================
-    save_path = os.path.join(output_dir, f"ShellVis_output_{datetime.now()}.png")
+    save_path = os.path.join(output_dir, f"ShellVis_output_{prompt}_{datetime.now()}.png")
     results_img = create_result_img(input_img, inpainted_img, prompt, cls_conf)
     cv.imwrite(save_path, results_img)
 
