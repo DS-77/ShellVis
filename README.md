@@ -41,7 +41,7 @@ significant implications for marine biology and conservation.
 ## Dataset
 
 We used the seashell images in dataset from Qi Zhang et al. paper " A shell dataset, for shell features extraction and recognition".
-You can find the full dataset [here](https://springernature.figshare.com/articles/dataset/all_shell_images/9122621?backTo=/collections/A_shell_dataset_for_shell_features_extraction_and_recognition/4428335). You can find there paper [here](https://www.nature.com/articles/s41597-019-0230-3).
+You can find the full dataset [here](https://springernature.figshare.com/articles/dataset/all_shell_images/9122621?backTo=/collections/A_shell_dataset_for_shell_features_extraction_and_recognition/4428335). You can find their paper [here](https://www.nature.com/articles/s41597-019-0230-3).
 
 We are cultivating our own dataset called "Shells in the Wild" that contain whole and broken seashells. You can find
 our dataset [here](https://huggingface.co/datasets/DS-77/Shells_in_the_Wild/).
